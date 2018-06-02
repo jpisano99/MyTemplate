@@ -67,9 +67,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+\
 db = SQLAlchemy(app)
 
 # Are we connected ?
+db_status = (db.engine.execute("SHOW VARIABLES WHERE Variable_name = 'port'"))
+for x in db_status:
+    db_port = x.values()
+
+db_status = (db.engine.execute("SHOW VARIABLES WHERE Variable_name = 'hostname'"))
+for x in db_status:
+    db_host = x.values()
+
 db_status = (db.engine.execute('SELECT USER()'))
 for x in db_status:
-    print(x)
+    db_user = x.values()
+
+print('You are connected to MySQL Host '+db_host[1]+' on Port '+db_port[1]+' as '+db_user[0])
 
 # import the model()s and views
 from application import models
