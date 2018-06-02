@@ -54,7 +54,11 @@ database = dict(
 #application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,'jimsDB.db')
 
 #Remote connect to RaspPi (Stan)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + database['PASSWORD'] + '@overlook-mountain.com:12498/cust_ref_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + database['PASSWORD'] + '@overlook-mountain.com:12498/cust_ref_db'
+
+#local connect to RaspPi (Stan)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + database['PASSWORD'] + '@stan.:3306/cust_ref_db'
+
 
 # Create db for SQL Alchemy
 db = SQLAlchemy(app)
