@@ -27,15 +27,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 from application import my_secrets
 
 #database configuration settings
-database = dict(
+db_config = dict(
     DATABASE = "cust_ref_db",
     USER     = "root",
     PASSWORD = my_secrets.passwords["DB_PASSWORD"],
-    HOST     = "localhost"
+    HOST     = "stan."
 )
 
 #Smartsheet Config settings
-# smartsheet = dict(
+# ss_config = dict(
 #     SMARTSHEET_TOKEN = passwords["SMARTSHEET_TOKEN"]
 # )
 
@@ -57,13 +57,22 @@ database = dict(
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + database['PASSWORD'] + '@overlook-mountain.com:12498/cust_ref_db'
 
 #local connect to RaspPi (Stan)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + database['PASSWORD'] + '@stan.:3306/cust_ref_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+\
+                                            db_config['USER']+\
+                                        ':'+db_config['PASSWORD']+\
+                                        '@'+db_config['HOST']+':3306/'+\
+                                            db_config['DATABASE']
 
 
 # Create db for SQL Alchemy
 db = SQLAlchemy(app)
 
-# import the models and views
+# Are we connected ?
+db_status = (db.engine.execute('SELECT USER()'))
+for x in db_status:
+    print(x)
+
+# import the model()s and views
 from application import models
 from application import views
 
