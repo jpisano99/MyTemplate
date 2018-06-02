@@ -40,10 +40,6 @@ database = dict(
 # )
 
 
-
-
-
-
 #
 # Various MySql Connectors
 #
