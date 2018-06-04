@@ -18,5 +18,9 @@ class Coverage(db.Model):
     def newest_name(num):
         return Coverage.query.order_by((Coverage.pss_name)).limit(num)
 
+    def get_pss(find_pss):
+        print("looking for" ,find_pss)
+        return Coverage.query.filter(Coverage.id==2)
+
     def __repr__(self):
        return "<name {}: '{} , {}'>".format(self.id, self.pss_name,self.tsa_name)
