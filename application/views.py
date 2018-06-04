@@ -25,10 +25,38 @@ def list():
     return render_template('list.html', coverages=coverages)
 
 
+
+# application.route('/add_name', methods=['GET', 'POST'])
+# def add_name():
+#     if request.method == 'POST':
+#         print('Got a POST from add name: ', request.get_data())
+#         #print("pss   ",request.form['pss_name'])
+#
+#         for thing in request.form.items():
+#             print(thing)
+#
+#         print(request.form['BtnClick'])
+#         if request.form['BtnClick'] == 'Done':
+#             return redirect('/')
+#         elif request.form['BtnClick'] == 'Submit':
+#             name = Coverage(pss_name = request.form['pss_name'], tsa_name = request.form['tsa_name'])
+#             #db.session.add(name)
+#             #db.session.commit()
+#     return render_template('add_name.html')
+
+
 @application.route('/input', methods=['GET', 'POST'])
 def input():
     if request.method == 'POST':
         print('Got a POST: ', request.get_data())
+        for form_item  in request.form.items():
+            print(form_item)
+
+        name = Coverage(pss_name=request.form['pss_name'],
+                        tsa_name=request.form['tsa_name'])
+        db.session.add(name)
+        db.session.commit()
+
     elif request.method == 'GET':
         print('Got a GET: ', request.get_data())
 

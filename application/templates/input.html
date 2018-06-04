@@ -13,12 +13,12 @@
     <link rel="stylesheet" href= "../static/css/bootstrap.min.css">
     <link rel="stylesheet" href= "../static/css/font-awesome.min.css">
 
-    <title>Tetration Analytics</title>
+    <title>My Template</title>
 </head>
 
 <body>
     <div class="container">
-        <form action = "/add_name" method = "POST">
+        <form action = "/input" method = "POST">
 
             <div class="form-group row">
                 <label for="pss_name" class="col-2 col-form-label">PSS Name</label>
@@ -30,33 +30,28 @@
             </div>
             <div class="form-group row">
                 <label for="sales_level_1" class="col-2 col-form-label">Sales Level 1</label>
-                <input class="col-4 form-control" type="text" value="Americas" id="sales_level_1">
+                <input class="col-4 form-control" type="text" value="Americas" name="sales_level_1" id="sales_level_1">
             </div>
-
-          <div class="form-group">
-            <label for="manager">Manager</label>
-            <select class="form-control" id="manager">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div>
-
-
-          <div class="form-group">
-            <label for="exampleInputFile">File input</label>
-            <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-            <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-          </div>
-
-          <div class="form-check">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input">
-              Check me out
-            </label>
-          </div>
+            <div class="form-group row">
+                <label for="sales_level_2" class="col-2 col-form-label">Sales Level 2</label>
+                <input class="col-4 form-control" type="text" value="Americas" name="sales_level_2" id="sales_level_2">
+            </div>
+            <div class="form-group row">
+                <label for="sales_level_3" class="col-2 col-form-label">Sales Level 3</label>
+                <input class="col-4 form-control" type="text" value="Americas" name="sales_level_3" id="sales_level_3">
+            </div>
+            <div class="form-group row">
+                <label for="sales_level_4" class="col-2 col-form-label">Sales Level 4</label>
+                <input class="col-4 form-control" type="text" value="Americas" name="sales_level_4" id="sales_level_4">
+            </div>
+            <div class="form-group row">
+                <label for="sales_level_5" class="col-2 col-form-label">Sales Level 5</label>
+                <input class="col-4 form-control" type="text" value="Americas" name="sales_level_5" id="sales_level_5">
+            </div>
+            <div class="form-group row">
+                <label for="fiscal_year" class="col-2 col-form-label">Fiscal Year</label>
+                <input class="col-4 form-control" type="text" value="Americas" name="fiscal_year" id="fiscal_year">
+            </div>
 
           <button type="submit" name="BtnClick" value="Done" class="btn btn-primary">Submit</button>
         </form>
