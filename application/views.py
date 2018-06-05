@@ -72,19 +72,13 @@ def delete():
     # Fetch the record(s) you want to delete
     #name = Coverage.get_pss("Cathy")
 
-    name = Coverage.query.filter(Coverage.pss_name == "Susanne East-Brooke")
-    print(name.values)
-    print (name.count())
-    print (name.values())
-
-    for x in name.values():
-        print ('ho')
-        print (x.pss_name)
-
-    print (type(name))
-
-    # db.session.delete(name)
-    # db.session.commit()
+    names = Coverage.query.filter(Coverage.pss_name == "Susanne East-Brooke").delete()
+    # print(type(names))
+    # for name in names:
+    #     print (name)
+    #
+    # db.session.delete(names)
+    db.session.commit()
     print("deleted")
 
     return render_template('index.html')
