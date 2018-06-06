@@ -13,14 +13,18 @@ class Coverage(db.Model):
 
     @staticmethod
     def newest():
-        return Coverage.query.all()
+        return Coverage.query.order_by(Coverage.pss_name).all()
+
+    def get_page(page_num):
+        num_of_pages = Coverage.query.paginate(per_page=10)
+        return Coverage.query.order_by(Coverage.id).offset(page_num*10)
 
     def newest_name(num):
-        return Coverage.query.order_by((Coverage.pss_name)).limit(num)
+        return Coverage.query.order_by(Coverage.pss_name).limit(num)
 
-    def get_pss(find_pss):
-        print("looking for" ,find_pss)
-        return Coverage.query.filter(Coverage.id==2)
+    # def get_pss(find_pss):
+    #     print("looking for" ,find_pss)
+    #     return Coverage.query.filter(Coverage.id==2)
 
     def __repr__(self):
        return "<name {}: '{} , {}'>".format(self.id, self.pss_name,self.tsa_name)
