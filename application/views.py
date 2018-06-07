@@ -14,6 +14,23 @@ def index():
     return render_template('index.html', coverages=coverages)
 
 
+@application.route('/saveit/<int:id>', methods=['GET', 'POST'])
+def saveit(id):
+    if request.method == 'POST':
+        record = Coverage.query.filter(Coverage.id == id).first()
+        record.pss_name = request.form['pss_name']
+        record.tsa_name = request.form['tsa_name']
+        record.sales_level_1 = request.form['sales_level_1']
+        record.sales_level_2 = request.form['sales_level_2']
+        record.sales_level_3 = request.form['sales_level_3']
+        record.sales_level_4 = request.form['sales_level_4']
+        record.sales_level_5 = request.form['sales_level_5']
+        record.fiscal_year = request.form['fiscal_year']
+        db.session.commit()
+
+    return url_for('/')
+
+
 @application.route('/list')
 def list():
     # Simple List
@@ -34,18 +51,16 @@ def detail(page_num):
 
 @application.route('/modify/<string:action>/<int:id>', methods=['GET', 'POST'])
 def modify(action,id):
-    print ('action:',action)
-    print ('record',id)
-
     record = Coverage.query.filter(Coverage.id == id)
+
     if action == 'delete':
         action = "Delete This ?"
     elif action == 'mail':
         action = "Mail This ?"
     elif action == 'edit':
-        action = "Edit This ?"
+        action = "Save Changes ?"
 
-    print("Deleting :",record[0].id,record[0].pss_name)
+    print("modify :",record[0].id,record[0].pss_name)
 
     if request.method == 'POST':
         print('Got a POST: ', request.get_data())
