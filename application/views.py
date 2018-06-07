@@ -28,7 +28,7 @@ def saveit(id):
         record.fiscal_year = request.form['fiscal_year']
         db.session.commit()
 
-    return url_for('/')
+    return render_template('index.html')
 
 
 @application.route('/list')
