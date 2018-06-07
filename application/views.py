@@ -3,31 +3,32 @@ from application import application,app
 from application.models import *
 
 
-@application.route('/', methods=['GET', 'POST'])
+@application.route('/')
 def index():
-    if request.method == 'POST':
-        print('Got a POST: ', request.get_data())
-    elif request.method == 'GET':
-        print('Got a GET: ', request.get_data())
-
-    coverages = Coverage.newest_name(12)
-    return render_template('index.html', coverages=coverages)
+    return render_template('index.html')
 
 
-@application.route('/saveit/<int:id>', methods=['GET', 'POST'])
+@application.route('/saveit/<int:id>',methods=['GET', 'POST'])
 def saveit(id):
     if request.method == 'POST':
-        record = Coverage.query.filter(Coverage.id == id).first()
-        record.pss_name = request.form['pss_name']
-        record.tsa_name = request.form['tsa_name']
-        record.sales_level_1 = request.form['sales_level_1']
-        record.sales_level_2 = request.form['sales_level_2']
-        record.sales_level_3 = request.form['sales_level_3']
-        record.sales_level_4 = request.form['sales_level_4']
-        record.sales_level_5 = request.form['sales_level_5']
-        record.fiscal_year = request.form['fiscal_year']
-        db.session.commit()
-
+        record = Coverage.query.filter(Coverage.id == id)
+        action = request.form['btnClick']
+        if action == 'edit':
+            record[0].pss_name = request.form['pss_name']
+            record[0].tsa_name = request.form['tsa_name']
+            record[0].sales_level_1 = request.form['sales_level_1']
+            record[0].sales_level_2 = request.form['sales_level_2']
+            record[0].sales_level_3 = request.form['sales_level_3']
+            record[0].sales_level_4 = request.form['sales_level_4']
+            record[0].sales_level_5 = request.form['sales_level_5']
+            record[0].fiscal_year = request.form['fiscal_year']
+            db.session.commit()
+        elif action == 'delete':
+            names = Coverage.query.filter(Coverage.id == id).delete()
+            db.session.commit()
+        elif action == 'mail':
+            pass
+    print("Action taken :", action, record[0].id, record[0].pss_name)
     return render_template('index.html')
 
 
@@ -52,15 +53,14 @@ def detail(page_num):
 @application.route('/modify/<string:action>/<int:id>', methods=['GET', 'POST'])
 def modify(action,id):
     record = Coverage.query.filter(Coverage.id == id)
-
     if action == 'delete':
-        action = "Delete This ?"
+        action = ['delete','Delete this ?']
     elif action == 'mail':
-        action = "Mail This ?"
+        action =  ['mail','Mail This ?']
     elif action == 'edit':
-        action = "Save Changes ?"
+        action = ['edit','Save Changes ?']
 
-    print("modify :",record[0].id,record[0].pss_name)
+    print("Action request :",action,record[0].id,record[0].pss_name)
 
     if request.method == 'POST':
         print('Got a POST: ', request.get_data())
@@ -94,28 +94,11 @@ def input():
     return render_template('input.html')
 
 
-@application.route('/delete', methods=['GET', 'POST'])
-def delete():
-    if request.method == 'POST':
-        print('Got a POST: ', request.get_data())
-    elif request.method == 'GET':
-        print('Got a GET: ', request.get_data())
-
-    # Go fetch the records from the db
-    # Records are returned formatted as per the __repr__ in the model
-
-    # Fetch the record(s) you want to delete
-    #name = Coverage.get_pss("Cathy")
-
-    names = Coverage.query.filter(Coverage.pss_name == "Susanne East-Brooke").delete()
-    # print(type(names))
-    # for name in names:
-    #     print (name)
-    #
-    # db.session.delete(names)
+@application.route('/delete/<int:id>')
+def delete(id):
+    names = Coverage.query.filter(Coverage.id == id).delete()
     db.session.commit()
     print("deleted")
-
     return render_template('index.html')
 
 
@@ -127,9 +110,3 @@ def page_not_found(e):
 @application.errorhandler(500)
 def server_error(e):
     return render_template('500.html'),500
-
-
-
-
-
-
