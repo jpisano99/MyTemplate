@@ -19,7 +19,7 @@
 <body>
 
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
-      <a class="navbar-brand" href="https://www.cisco.com/c/en/us/products/data-center-analytics/tetration-analytics/index.html">Tetration Anaylytics</a>
+      <a class="navbar-brand" href="https://www.cisco.com/c/en/us/products/data-center-analytics/tetration-analytics/index.html">Sample Details Page</a>
       <!--<img src="../img/TA_logo_30px.png" alt="Logo" style="width:30px height:30px">-->
       <img src="../img/TA_logo_30px.png" style="width:30px height:30px">
         <ul class="navbar-nav mr-auto">
@@ -72,12 +72,12 @@
                     <tbody>
 
                       {% for detail in details.items %}
-                          <!--{% if (detail.pss_name == my_name) or (my_name == 'any') %}-->
+                          {% if (detail.pss_name == my_name) or (my_name == 'any') %}
                             <tr class="d-flex">
                                 <td class ="col-lg-1 text-center">
-                                    <a href="/input"> <i class="fa fa-edit"></i></a>
-                                    <a href="http://www.linkedin.com"> <i class="fa fa-envelope"></i></a>
-                                    <a href="http://www.linkedin.com"> <i class="fa fa-trash"></i></a>
+                                    <a href="{{ url_for('modify',action='edit',id=detail.id) }}"> <i class="fa fa-edit"></i></a>
+                                    <a href="{{ url_for('modify',action='mail',id=detail.id) }}"> <i class="fa fa-envelope"></i></a>
+                                    <a href="{{ url_for('modify',action='delete',id=detail.id) }}"> <i class="fa fa-trash"></i></a>
                                 </td>
                                 <td class="col-lg-1 text-center">{{ detail.id }}</td>
                                 <td class="col-lg-2">{{ detail.pss_name }}</td>
@@ -85,8 +85,9 @@
                                 <td class="col-lg-3">{{ detail.sales_level_1}}</td>
                                 <td class="col-lg-3">{{ detail.sales_level_2}}</td>
                             </tr>
-                         <!--{% endif %}-->
+                         {% endif %}
                       {% endfor %}
+
                     </tbody>
                 </table>
             </div>
@@ -99,7 +100,7 @@
               <ul class="pagination mx-auto text-center">
               {% for page in details.iter_pages() %}
                 {% if page %}
-                    <li class="page-item"><a class="page-link" href="{{ url_for('detail',page_num=page) }}">{{ page }}</a></li>
+                  <li class="page-item"><a class="page-link" href="{{ url_for('detail',page_num=page) }}">{{ page }}</a></li>
                 {% else %}
                     ...
                 {% endif %}

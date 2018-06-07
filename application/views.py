@@ -14,58 +14,44 @@ def index():
     return render_template('index.html', coverages=coverages)
 
 
-@application.route('/list', methods=['GET', 'POST'])
+@application.route('/list')
 def list():
-    if request.method == 'POST':
-        print('Got a POST: ', request.get_data())
-    elif request.method == 'GET':
-        print('Got a GET: ', request.get_data())
-
+    # Simple List
     # Go fetch the records from the db
     # Records are returned formatted as per the __repr__ in the model
-
     coverages = Coverage.newest_name(12)
-    # coverages = Coverage.newest()
-
-    for jim in coverages:
-        print(jim)
-
     return render_template('list.html', coverages=coverages)
+
 
 @application.route('/detail/<int:page_num>')
 def detail(page_num):
-    details = Coverage.query.paginate(per_page=12,page=page_num,error_out=True)
+    # Display db rows with options for delete/edit/email
+    # Sourced from YouTube pagination example
+    # https://www.youtube.com/watch?v=hkL9pgCJPNk
+    details = Coverage.query.paginate(per_page=6,page=page_num,error_out=True)
     return render_template('detail.html',details=details,my_name='any')
 
 
-# @application.route('/team', methods=['GET', 'POST'])
-# def team():
-#     req_page = 1
-#     if request.method == 'POST':
-#         print('Got a POST: ', request.get_data())
-#     elif request.method == 'GET':
-#         print('Got a GET: ', request.get_data())
-#         query_page = request.args.get('page_request')
-#         if query_page =='None':
-#             req_page = 1
-#         elif query_page == '10more':
-#             req_page = 3
-#         elif query_page == '10less':
-#             req_page = 2
-#
-#     # Go fetch the records from the db
-#     # Records are returned formatted as per the __repr__ in the model
-#
-#     # Default is 20 results per page
-#     my_pages = Coverage.query.paginate(per_page=10)
-#     print("next page..",my_pages.next_num)
-#     print ("pages  ",my_pages.pages)
-#     print (db.session.query(Coverage).count())
-#
-#     coverages = Coverage.get_page(req_page)
-#     # coverages = Coverage.newest()
-#
-#     return render_template('detail.html', coverages=coverages, my_name='any')
+@application.route('/modify/<string:action>/<int:id>', methods=['GET', 'POST'])
+def modify(action,id):
+    print ('action:',action)
+    print ('record',id)
+
+    record = Coverage.query.filter(Coverage.id == id)
+    if action == 'delete':
+        action = "Delete This ?"
+    elif action == 'mail':
+        action = "Mail This ?"
+    elif action == 'edit':
+        action = "Edit This ?"
+
+    print("Deleting :",record[0].id,record[0].pss_name)
+
+    if request.method == 'POST':
+        print('Got a POST: ', request.get_data())
+        for form_item in request.form.items():
+            print(form_item)
+    return render_template('modify.html', record=record,action=action)
 
 
 @application.route('/input', methods=['GET', 'POST'])
@@ -90,7 +76,6 @@ def input():
         return redirect('/')
     elif request.method == 'GET':
         print('Got a GET: ', request.get_data())
-
     return render_template('input.html')
 
 
@@ -117,7 +102,6 @@ def delete():
     print("deleted")
 
     return render_template('index.html')
-
 
 
 @application.errorhandler(404)
