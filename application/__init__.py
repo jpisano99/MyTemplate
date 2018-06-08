@@ -30,7 +30,7 @@ db_config = dict(
     DATABASE = "cust_ref_db",
     USER     = "root",
     PASSWORD = my_secrets.passwords["DB_PASSWORD"],
-    HOST     = "stan."
+    HOST     = "localhost"
 )
 
 # Smartsheet Config settings

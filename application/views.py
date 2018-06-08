@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request, session
-from application import application,app
+from application import application, app
 from application.models import *
 
 
@@ -94,12 +94,10 @@ def input():
     return render_template('input.html')
 
 
-@application.route('/delete/<int:id>')
-def delete(id):
-    names = Coverage.query.filter(Coverage.id == id).delete()
-    db.session.commit()
-    print("deleted")
-    return render_template('index.html')
+@application.route('/testing')
+def testing():
+    details = Managers.newest()
+    return render_template('testing.html',details=details)
 
 
 @application.errorhandler(404)

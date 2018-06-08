@@ -28,3 +28,16 @@ class Coverage(db.Model):
 
     def __repr__(self):
        return "<name {}: '{} , {}'>".format(self.id, self.pss_name,self.tsa_name)
+
+class Managers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    last_name = db.Column(db.String(45))
+    first_name = db.Column(db.String(45))
+    segment = db.Column(db.String(45))
+
+    @staticmethod
+    def newest():
+        return Managers.query.order_by(Managers.last_name).all()
+
+    def __repr__(self):
+       return "<name {}: '{} , {}'>".format(self.id, self.last_name,self.first_name,self.segment)
