@@ -13,6 +13,7 @@ def saveit(id):
     if request.method == 'POST':
         record = Coverage.query.filter(Coverage.id == id)
         action = request.form['btnClick']
+        print("Action taken :", action, record[0].id, record[0].pss_name)
         if action == 'edit':
             record[0].pss_name = request.form['pss_name']
             record[0].tsa_name = request.form['tsa_name']
@@ -28,7 +29,7 @@ def saveit(id):
             db.session.commit()
         elif action == 'mail':
             pass
-    print("Action taken :", action, record[0].id, record[0].pss_name)
+
     return render_template('index.html')
 
 
@@ -62,10 +63,6 @@ def modify(action,id):
 
     print("Action request :",action,record[0].id,record[0].pss_name)
 
-    if request.method == 'POST':
-        print('Got a POST: ', request.get_data())
-        for form_item in request.form.items():
-            print(form_item)
     return render_template('modify.html', record=record,action=action)
 
 
@@ -91,12 +88,15 @@ def input():
         return redirect('/')
     elif request.method == 'GET':
         print('Got a GET: ', request.get_data())
-    return render_template('input.html')
+        details = db.session.query(Coverage.sales_level_4.distinct())
+    return render_template('input.html',details=details)
 
 
 @application.route('/testing')
 def testing():
-    details = Managers.newest()
+    details = db.session.query(Coverage.sales_level_4.distinct())
+    for detail in details:
+        print(detail)
     return render_template('testing.html',details=details)
 
 

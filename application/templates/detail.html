@@ -70,6 +70,7 @@
                           {% if (detail.pss_name == my_name) or (my_name == 'any') %}
                             <tr class="d-flex">
                                 <td class ="col-lg-1 text-center">
+                                    <label><input name="check" type="checkbox" value="checkit"></label>
                                     <a href="{{ url_for('modify',action='edit',id=detail.id) }}"> <i class="fa fa-edit"></i></a>
                                     <a href="{{ url_for('modify',action='mail',id=detail.id) }}"> <i class="fa fa-envelope"></i></a>
                                     <a href="{{ url_for('modify',action='delete',id=detail.id) }}"> <i class="fa fa-trash"></i></a>

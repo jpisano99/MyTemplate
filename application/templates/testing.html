@@ -24,7 +24,7 @@
         <ul class="dropdown-menu">
 
         {% for detail in details %}
-            <li><a href="{{ url_for('index',id=detail.id) }}">{{ detail.last_name }}</a></li>
+            <li><a href="{{ url_for('index',id=detail) }}">{{ detail[0] }}</a></li>
         {% endfor %}
 
         </ul>
