@@ -41,3 +41,18 @@ class Managers(db.Model):
 
     def __repr__(self):
        return "<name {}: '{} , {}'>".format(self.id, self.last_name,self.first_name,self.segment)
+
+class sales_levels(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Sales_Level_1 = db.Column(db.String(30))
+    Sales_Level_2 = db.Column(db.String(30))
+    Sales_Level_3 = db.Column(db.String(30))
+    Sales_Level_4 = db.Column(db.String(30))
+    Sales_Level_5 = db.Column(db.String(30))
+
+    # @staticmethod
+    # def newest():
+    #     return Managers.query.order_by(Managers.last_name).all()
+
+    # def __repr__(self):
+    #    return "<name {}: '{} , {}'>".format(sel
