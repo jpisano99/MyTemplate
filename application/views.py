@@ -1,11 +1,38 @@
-from flask import render_template, flash, redirect, url_for, request, session
+from flask import render_template, flash, redirect, url_for, request, session,jsonify
 from application import application, app
 from application.models import *
+from application.my_functions import *
 
 
 @application.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('testing.html')
+
+
+@application.route('/process',methods=['POST'])
+def process():
+    email = request.form['email']
+    name = request.form['name']
+    print(request.form['email'],request.form['name'],request.form)
+    ang = request.form.to_dict()
+    print (ang)
+
+    # if email == 'Americas':
+        # jim = build_sales_dict('Americas')
+        # newName = "Got Americas"
+        # print (newName)
+
+    if name and email:
+        newName = name[::-1]
+
+        return jsonify({'name': newName})
+
+    else:
+        print ("i ain't got it")
+
+
+
+    return jsonify({'error': 'Missing data!'})
 
 
 @application.route('/saveit/<int:id>',methods=['GET', 'POST'])
@@ -87,9 +114,10 @@ def input():
         db.session.commit()
         return redirect('/')
     elif request.method == 'GET':
+        sales_levels = build_sales_dict()
         print('Got a GET: ', request.get_data())
         details = db.session.query(Coverage.sales_level_4.distinct())
-    return render_template('input.html',details=details)
+    return render_template('input.html',details=details,sales_levels=sales_levels)
 
 
 @application.route('/testing')

@@ -40,13 +40,15 @@
                 <label for="sales_level_3" class="col-2 col-form-label">Sales Level 3</label>
                 <input class="col-4 form-control" type="text" value="Americas" name="sales_level_3" id="sales_level_3">
             </div>
+
             <div class="form-group row">
                 <label for="sales_level_4" class="col-2 col-form-label">Sales Level 4</label>
                 <select class="col-4 form-control" name="sales_level_4" id="sales_level_4">
-                    {% for detail in details %}
-                    <option>{{ detail[0] }}</option>
+                    {% for key,values in sales_levels.items() %}
+                    <option>{{ values[3] }}</option>
                     {% endfor %}
                 </select>
+
             </div>
             <div class="form-group row">
                 <label for="sales_level_5" class="col-2 col-form-label">Sales Level 5</label>
