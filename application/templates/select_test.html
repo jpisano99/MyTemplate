@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Updating Select Box Example</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</head>
+
+
+<body>
+
+    <h1> Select Box Updating Test</h1>
+	<br><br><br><br>
+
+        <select id = 'state' value = 'volvo'>
+            <option value="GLOBAL SERVICE PROVIDER">GLOBAL SERVICE PROVIDER</option>
+            <option value="Americas">Americas</option>
+            <option value="EMEAR-REGION">EMEAR-REGION</option>
+            <option value="APJ">APJ</option>
+        </select>
+
+        <select id = 'city' value = 'nyc'>
+            <option value='wdst'>Woodstock</option>
+        </select>
+
+	<script src="{{ url_for('static', filename='js/select_it.js',version='1fhegge3g65gge0gg017') }}"></script>
+
+</body>
+</html>

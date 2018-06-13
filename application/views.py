@@ -4,23 +4,37 @@ from application.models import *
 from application.my_functions import *
 
 
+@application.route('/city/<state>')
+def city(state):
+    level1 = state
+    levels = build_sales_dict(state)
+
+    levelArray = []
+    for key, values in levels.items():
+        for value in values:
+            levelArray.append(value[0])
+
+    cityArray = levelArray
+
+    return jsonify({'cities' : cityArray})
+
 @application.route('/')
 def index():
-    return render_template('testing.html')
+    return render_template('select_test.html')
 
-
-@application.route('/process',methods=['POST'])
+@application.route('/process',methods=['GET','POST'])
 def process():
     email = request.form['email']
     name = request.form['name']
-    print(request.form['email'],request.form['name'],request.form)
-    ang = request.form.to_dict()
-    print (ang)
+    print("email: ", request.form['email'],"name: ",request.form['name'])
+    print ()
+    print ("Request form: ",request.form.to_dict())
+    # jim = build_sales_dict('Americas')
 
-    # if email == 'Americas':
-        # jim = build_sales_dict('Americas')
-        # newName = "Got Americas"
-        # print (newName)
+    if name == 'Americas':
+        jim = build_sales_dict('Americas')
+        newName = "Got Americas"
+        print (newName)
 
     if name and email:
         newName = name[::-1]
@@ -29,8 +43,6 @@ def process():
 
     else:
         print ("i ain't got it")
-
-
 
     return jsonify({'error': 'Missing data!'})
 
@@ -114,7 +126,7 @@ def input():
         db.session.commit()
         return redirect('/')
     elif request.method == 'GET':
-        sales_levels = build_sales_dict()
+        sales_levels = build_sales_dict("Americas")
         print('Got a GET: ', request.get_data())
         details = db.session.query(Coverage.sales_level_4.distinct())
     return render_template('input.html',details=details,sales_levels=sales_levels)

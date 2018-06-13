@@ -7,7 +7,7 @@ def build_sales_dict(sales_level_1):
             "`Sales_Level_1`,`Sales_Level_2`,`Sales_Level_3`,`Sales_Level_4`,`Sales_Level_5` " + \
             "FROM sales_levels " + \
             "WHERE `Sales_Level_1` = " + "'" + sales_level_1 + "' " \
-            "order by `Sales_Level_1`"
+            "order by `Sales_Level_2`"
     all_sales_levels = db.engine.execute(sql)
 
     sales_level_dict= {}

@@ -2,7 +2,6 @@ from application import application
 #from application import db
 from flask_script import Manager, prompt_bool
 from sqlalchemy_utils import create_database
-
 manager = Manager(application)
 
 @manager.command

@@ -4,8 +4,8 @@ $(document).ready(function() {
 
 		$.ajax({
 			data : {
-                email : $('#emailInput').val(),
-			    name : $('#nameInput').val()
+				name : $('#nameInput').val(),
+				email : $('#emailInput').val()
 			},
 			type : 'POST',
 			url : '/process'
