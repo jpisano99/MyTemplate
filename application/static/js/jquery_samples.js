@@ -31,6 +31,7 @@ $(document).ready(function(){
                         newoptions += '<option value="' + level+ '">' + level + '</option>';
                     }
 
+                    // Load up options and turn element on
                     $("#level2").html(newoptions);
                     $("#level2").prop('disabled', false);
 
