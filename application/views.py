@@ -4,19 +4,27 @@ from application.models import *
 from application.my_functions import *
 
 
-@application.route('/city/<state>')
-def city(state):
-    level1 = state
-    levels = build_sales_dict(state)
+@application.route('/level1/<state>',methods=['GET','POST'])
+def level1(state):
+    # Strip out %20 space markers
+    level1 = state.replace("%20", " ")
+    print(request.method,level1)
+
+    levels = build_sales_dict(level1)
 
     levelArray = []
+    x = 0
     for key, values in levels.items():
         for value in values:
-            levelArray.append(value[0])
+            # cityObj={}
+            # cityObj['id'] = x+1
+            # cityObj['name'] = value[0]+"/"+value[1]
+            # levelArray.append(cityObj)
+            levelArray.append(value[1])
 
-    cityArray = levelArray
+    print(levelArray)
 
-    return jsonify({'cities' : cityArray})
+    return jsonify({'levels': levelArray})
 
 @application.route('/')
 def index():

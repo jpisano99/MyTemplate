@@ -15,18 +15,30 @@
     <h1> Select Box Updating Test</h1>
 	<br><br><br><br>
 
-        <select id = 'state' value = 'volvo'>
+        <select class="sales" id = 'level1' value = 'Americas'>
             <option value="GLOBAL SERVICE PROVIDER">GLOBAL SERVICE PROVIDER</option>
             <option value="Americas">Americas</option>
             <option value="EMEAR-REGION">EMEAR-REGION</option>
             <option value="APJ">APJ</option>
         </select>
 
-        <select id = 'city' value = 'nyc'>
-            <option value='wdst'>Woodstock</option>
+        <select class="sales" id = 'level2' value = 'nyc'disabled>
+            <option value='wdst'>Sales Level 2</option>
         </select>
 
-	<script src="{{ url_for('static', filename='js/select_it.js',version='1fhegge3g65gge0gg017') }}"></script>
+        <select class="sales" id = 'level3' value = 'nyc'disabled>
+            <option value='wdst'>Sales Level 3</option>
+        </select>
+
+        <select class="sales" id = 'level4' value = 'nyc'disabled>
+            <option value='wdst'>Sales Level 4</option>
+        </select>
+
+        <select class="sales" id = 'level5' value = 'nyc'disabled>
+            <option value='wdst'>Sales Level test</option>
+        </select>
+
+	<script src="{{ url_for('static', filename='js/jquery_samples.js',version='tf99933f7') }}"></script>
 
 </body>
 </html>

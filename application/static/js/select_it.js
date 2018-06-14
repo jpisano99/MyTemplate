@@ -1,20 +1,18 @@
-var state_select = document.getElementById("state");
-var city_select = document.getElementById("city");
+var sales_level1 = document.getElementById("level1");
+var sales_level2 = document.getElementById("level2");
 
-state_select.onchange = function()  {
+sales_level1.onchange = function()  {
+    level1 = sales_level1.value;
 
-    state = state_select.value;
-
-    fetch('/city/' + state).then(function(response) {
+    fetch('/level1/' + level1).then(function(response) {
 
         response.json().then(function(data) {
 
             var optionHTML = '';
-            for (var city of data.cities) {
-                optionHTML += '<option value="' + city+ '">' + city + '</option>';
-                //optionHTML += '<option value="' + city.id + '">' + city.name + '</option>';
+            for (var level of data.levels) {
+                optionHTML += '<option value="' + level+ '">' + level + '</option>';
             }
-        city_select.innerHTML = optionHTML;
+        sales_level2.innerHTML = optionHTML;
     })
 
     })

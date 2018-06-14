@@ -8,6 +8,7 @@ def build_sales_dict(sales_level_1):
             "FROM sales_levels " + \
             "WHERE `Sales_Level_1` = " + "'" + sales_level_1 + "' " \
             "order by `Sales_Level_2`"
+
     all_sales_levels = db.engine.execute(sql)
 
     sales_level_dict= {}
@@ -36,12 +37,12 @@ def build_sales_dict(sales_level_1):
     sales_level_dict[current_key] = current_list
 
     #DEBUG Code
-    for key,values in sales_level_dict.items():
-        print (key)
-        for value in values:
-            # if key == 'Americas':
-            print(key,value[0],value[1],value[2],value[3])
-            #print('# ',cntr,' ',key," : ",value)
+    # for key,values in sales_level_dict.items():
+    #     print (key)
+    #     for value in values:
+    #         # if key == 'Americas':
+    #         print(key,value[0],value[1],value[2],value[3])
+    #         #print('# ',cntr,' ',key," : ",value)
 
     return (sales_level_dict)
 
