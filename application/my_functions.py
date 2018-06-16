@@ -1,48 +1,66 @@
 from application.models import *
 
+def build_sales_list(hierarchy):
+    print()
+    print("Request:  ",hierarchy)
+    print()
 
-def build_sales_dict(sales_level_1):
-    # Find all Sales Levels
-    sql = "SELECT DISTINCT "+ \
-            "`Sales_Level_1`,`Sales_Level_2`,`Sales_Level_3`,`Sales_Level_4`,`Sales_Level_5` " + \
+    # Build SQL Stmnt from the hierarchy list
+    level = 1
+    tmp = ""
+    sql_where = ""
+    sql_columns = ""
+
+    for x in hierarchy:
+        tmp = "`Sales_Level_" + str(level) + "`"
+        sql_where = sql_where + tmp + "=" + "'" + x + "' AND "
+        sql_columns = sql_columns + "," + tmp
+        level += 1
+
+    if len(hierarchy) == 0:
+        # Adjust SQL stmnt for a starter list
+        sql_columns = "`Sales_Level_1`"
+        sql_where = ""
+    else:
+        # Add one add'l column to the request
+        sql_columns = sql_columns + "," + "`Sales_Level_" + str(level) + "`"
+
+        # Trim these up
+        sql_where = "WHERE " + sql_where.rstrip("AND ")
+        sql_columns = sql_columns.lstrip(", ")
+
+    # Build the SQL Statement
+    sql = "SELECT DISTINCT " + \
+            sql_columns + \
             "FROM sales_levels " + \
-            "WHERE `Sales_Level_1` = " + "'" + sales_level_1 + "' " \
-            "order by `Sales_Level_2`"
+            sql_where  + \
+            " order by `Sales_Level_1`"
+    print()
+    print("SQL:  ",sql)
+    print()
 
-    all_sales_levels = db.engine.execute(sql)
+    # # Run the Query
+    query_results = db.engine.execute(sql)
 
-    sales_level_dict= {}
-    current_key = ""
-    current_list = []
+    # Construct the response list
+    level_list = []
+    for x in query_results:
+        build_it = []
+        for y in range(level):
+            build_it.append(x.values()[y])
+        level_list.append(build_it)
 
-    # Prime the key
-    current_key = all_sales_levels.first()[0]
+    print()
+    print("Response:   ",level_list)
+    print()
 
-    # Rerun the Query
-    all_sales_levels = db.engine.execute(sql)
-    cntr = 0
+    return (level_list)
 
-    for x in all_sales_levels:
-        cntr = cntr + 1
-        if current_key != x.values()[0]:
-            #create new dict entry
-            sales_level_dict[current_key] = current_list
-            # reset key and list
-            current_list=[]
-            current_key = x.values()[0]
-        else:
-            current_list.append((x.values()[1], x.values()[2], x.values()[3], x.values()[4]))
-
-    # Add the last dict entry
-    sales_level_dict[current_key] = current_list
-
-    #DEBUG Code
-    # for key,values in sales_level_dict.items():
-    #     print (key)
-    #     for value in values:
-    #         # if key == 'Americas':
-    #         print(key,value[0],value[1],value[2],value[3])
-    #         #print('# ',cntr,' ',key," : ",value)
-
-    return (sales_level_dict)
-
+if __name__ == "__main__":
+    from application.models import *
+    from application.my_functions import *
+    #jim = ["Americas","AMERICAS_MISC"]
+    #jim = []
+    #jim = ["Americas"]
+    jim = ["Americas", "US COMMERCIAL", "COMMERCIAL EAST AREA","Colonial Select Operation"]
+    build_sales_list(jim)

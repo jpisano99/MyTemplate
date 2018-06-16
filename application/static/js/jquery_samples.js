@@ -1,8 +1,8 @@
 $(document).ready(function(){
-    //alert("doc ready .. ");
+     //alert("doc ready .. ");
 
     $("#level1").change(function(){
-        //alert("Changed Level 1 value to:" + $("#level1").val());
+        alert("Changed Level 1 value to:" + $("#level1").val());
      });
 
     $("#level2").change(function(){
@@ -19,12 +19,13 @@ $(document).ready(function(){
 
         var hirearchy = level1;
 
-        alert("Class SALES changed to:" + hirearchy);
+        //alert("Class SALES changed to:" + hierarchy);
 
         $.ajax({
                 type: "POST",
-                url: "/level1/"+hirearchy,
+                url: "/get_levels",
                 contentType: "text/json; charset=utf-8",
+                data: JSON.stringify({ level1:'APJ'}),
                 success: function(data) {
                     var newoptions = "";
                     for (var level of data.levels) {

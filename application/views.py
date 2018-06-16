@@ -1,26 +1,36 @@
 from flask import render_template, flash, redirect, url_for, request, session,jsonify
+import json
 from application import application, app
 from application.models import *
 from application.my_functions import *
 
 
-@application.route('/level1/<state>',methods=['GET','POST'])
-def level1(state):
+@application.route('/get_levels' ,methods=['POST'])
+def get_levels():
+
+    hierarchy = json.loads((request.data).decode("utf-8"))
+    my_request = []
+    for level,value in hierarchy.items():
+        print (level, value)
+        my_request.append(value)
+
+    #my_request = [hierarchy["level1"],hierarchy["level1"]]
+    my_request = [hierarchy["level1"]]
+
     # Strip out %20 space markers
-    level1 = state.replace("%20", " ")
-    print(request.method,level1)
+    #hierarchy = hierarchy.replace("%20", " ")
 
-    levels = build_sales_dict(level1)
+    levelArray = build_sales_list(my_request)
 
-    levelArray = []
-    x = 0
-    for key, values in levels.items():
-        for value in values:
-            # cityObj={}
-            # cityObj['id'] = x+1
-            # cityObj['name'] = value[0]+"/"+value[1]
-            # levelArray.append(cityObj)
-            levelArray.append(value[1])
+    # levelArray = []
+    # x = 0
+    # for key, values in levels.items():
+    #     for value in values:
+    #         # cityObj={}
+    #         # cityObj['id'] = x+1
+    #         # cityObj['name'] = value[0]+"/"+value[1]
+    #         # levelArray.append(cityObj)
+    #         levelArray.append(value[1])
 
     print(levelArray)
 
