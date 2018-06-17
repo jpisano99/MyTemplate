@@ -1,31 +1,33 @@
 from application.models import *
 
 def build_sales_list(hierarchy):
-    print()
-    print("Request:  ",hierarchy)
 
     # Build SQL Stmnt from the hierarchy list
-    level = 1
-    tmp = ""
     sql_where = ""
     sql_columns = ""
 
-    if hierarchy[0] == "start":
+    # If the first level is none then we are just starting
+    if hierarchy["level1"] == None:
         # Adjust SQL stmnt for a starter list
-        sql_columns = "`Sales_Level_1`"
+        level = 1
+        sql_columns = "`Sales_Level_1` "
         sql_where = ""
     else:
-        for x in hierarchy:
-            if x == None:
+        #loop through the dict keys in level order
+        #stop if we hit a value of None
+        for level in range(1,6):
+            next_key = "level"+str(level)
+            if level == 5 :
+                break
+            elif hierarchy[next_key] == None :
                 break
             else:
-                tmp = "`Sales_Level_" + str(level) + "`"
-                sql_where = sql_where + tmp + "=" + "'" + x + "' AND "
-                sql_columns = sql_columns + "," + tmp
-                level += 1
+                sql_col_name = "`Sales_Level_" + str(level) + "` "
+                sql_where = sql_where + sql_col_name + "=" + " '" + hierarchy[next_key] + "' AND "
+                sql_columns = sql_columns + "," + sql_col_name
 
         # Add one add'l column to the request
-        sql_columns = sql_columns + "," + "`Sales_Level_" + str(level) + "`"
+        sql_columns = sql_columns + "," + "`Sales_Level_" + str(level) + "` "
 
         # Trim these up
         sql_where = "WHERE " + sql_where.rstrip("AND ")
@@ -54,10 +56,9 @@ def build_sales_list(hierarchy):
 if __name__ == "__main__":
     from application.models import *
     from application.my_functions import *
-    #jim = ["Americas","AMERICAS_MISC"]
-    jim = ['start', None, None, None]
-    #jim = ['Americas', None, None, None]
-    #jim = ['EMEAR-REGION', 'EMEAR-SOUTH', 'lev3_empty', 'lev4_empty']
-    #jim = ["Americas"]
-    #jim = ["Americas", "US COMMERCIAL", "COMMERCIAL EAST AREA","Colonial Select Operation"]
+    #jim = {'level2': None, 'level1': None, 'level4': None, 'level3': None}
+    #jim = {'level2': "US COMMERCIAL", 'level1': "Americas", 'level4': None, 'level3': None}
+    #jim = {'level2': 'US COMMERCIAL', 'level1': "Americas", 'level4': 'Colonial Select Operation', 'level3': 'COMMERCIAL EAST AREA'}
+    #jim = {'level2': 'US COMMERCIAL', 'level1': "Americas", 'level4': None, 'level3': 'COMMERCIAL EAST AREA'}
+    jim = {'level2': 'US COMMERCIAL', 'level1': "Americas", 'level4': None, 'level3': None}
     build_sales_list(jim)

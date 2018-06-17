@@ -2,8 +2,7 @@ $(document).ready(function(){
     //alert("doc ready .. ");
 
     var tmp = $("#level1").val();
-    if (tmp == "start") {
-        //alert("start");
+    if (tmp == null){
         var tmp1 = load_vals();
         var tmp2 = look_up(tmp1,"1");
     }
