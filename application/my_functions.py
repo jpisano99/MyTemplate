@@ -3,7 +3,6 @@ from application.models import *
 def build_sales_list(hierarchy):
     print()
     print("Request:  ",hierarchy)
-    print()
 
     # Build SQL Stmnt from the hierarchy list
     level = 1
@@ -11,17 +10,20 @@ def build_sales_list(hierarchy):
     sql_where = ""
     sql_columns = ""
 
-    for x in hierarchy:
-        tmp = "`Sales_Level_" + str(level) + "`"
-        sql_where = sql_where + tmp + "=" + "'" + x + "' AND "
-        sql_columns = sql_columns + "," + tmp
-        level += 1
-
-    if len(hierarchy) == 0:
+    if hierarchy[0] == "start":
         # Adjust SQL stmnt for a starter list
         sql_columns = "`Sales_Level_1`"
         sql_where = ""
     else:
+        for x in hierarchy:
+            if x == None:
+                break
+            else:
+                tmp = "`Sales_Level_" + str(level) + "`"
+                sql_where = sql_where + tmp + "=" + "'" + x + "' AND "
+                sql_columns = sql_columns + "," + tmp
+                level += 1
+
         # Add one add'l column to the request
         sql_columns = sql_columns + "," + "`Sales_Level_" + str(level) + "`"
 
@@ -35,9 +37,7 @@ def build_sales_list(hierarchy):
             "FROM sales_levels " + \
             sql_where  + \
             " order by `Sales_Level_1`"
-    print()
     print("SQL:  ",sql)
-    print()
 
     # # Run the Query
     query_results = db.engine.execute(sql)
@@ -45,14 +45,9 @@ def build_sales_list(hierarchy):
     # Construct the response list
     level_list = []
     for x in query_results:
-        build_it = []
-        for y in range(level):
-            build_it.append(x.values()[y])
-        level_list.append(build_it)
+        level_list.append(x.values()[level-1])
 
-    print()
     print("Response:   ",level_list)
-    print()
 
     return (level_list)
 
@@ -60,7 +55,9 @@ if __name__ == "__main__":
     from application.models import *
     from application.my_functions import *
     #jim = ["Americas","AMERICAS_MISC"]
-    #jim = []
+    jim = ['start', None, None, None]
+    #jim = ['Americas', None, None, None]
+    #jim = ['EMEAR-REGION', 'EMEAR-SOUTH', 'lev3_empty', 'lev4_empty']
     #jim = ["Americas"]
-    jim = ["Americas", "US COMMERCIAL", "COMMERCIAL EAST AREA","Colonial Select Operation"]
+    #jim = ["Americas", "US COMMERCIAL", "COMMERCIAL EAST AREA","Colonial Select Operation"]
     build_sales_list(jim)

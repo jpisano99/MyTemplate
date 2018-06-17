@@ -1,42 +1,68 @@
 $(document).ready(function(){
-     //alert("doc ready .. ");
+    //alert("doc ready .. ");
+
+    var tmp = $("#level1").val();
+    if (tmp == "start") {
+        //alert("start");
+        var tmp1 = load_vals();
+        var tmp2 = look_up(tmp1,"1");
+    }
 
     $("#level1").change(function(){
-        alert("Changed Level 1 value to:" + $("#level1").val());
+        $("#level2").html("");
+        $("#level3").html("");
+        $("#level4").html("");
+        $("#level5").html("");
+        var tmp1 = load_vals();
+        var tmp2 = look_up(tmp1,"2");
      });
 
     $("#level2").change(function(){
-        //alert("Changed Level 2 value to:" + $("#level2").val());
+        $("#level3").html("");
+        $("#level4").html("");
+        $("#level5").html("");
+        var tmp1 = load_vals();
+        var tmp2 = look_up(tmp1,"3");
      });
 
-    $(".sales").change(function(){
-        var level1 = $("#level1").val();
-        var level2 = $("#level2").val();
-        var level3 = $("#level3").val();
-        var level4 = $("#level4").val();
-        var level5 = $("#level5").val();
-        //var hirearchy = level1 + "/" + level2 + "/" + level3 + "/" + level4 + "/" + level5
+    $("#level3").change(function(){
+        $("#level4").html("");
+        $("#level5").html("");
+        var tmp1 = load_vals();
+        var tmp2 = look_up(tmp1,"4");
+     });
 
-        var hirearchy = level1;
-
-        //alert("Class SALES changed to:" + hierarchy);
-
-        $.ajax({
-                type: "POST",
-                url: "/get_levels",
-                contentType: "text/json; charset=utf-8",
-                data: JSON.stringify({ level1:'APJ'}),
-                success: function(data) {
-                    var newoptions = "";
-                    for (var level of data.levels) {
-                        newoptions += '<option value="' + level+ '">' + level + '</option>';
-                    }
-
-                    // Load up options and turn element on
-                    $("#level2").html(newoptions);
-                    $("#level2").prop('disabled', false);
-
-                }
-            });
+    $("#level4").change(function(){
+        $("#level5").html("");
+        var tmp1 = load_vals();
+        var tmp2 = look_up(tmp1,"5");
      });
 });
+
+function load_vals(){
+    var lev1_val = $("#level1").val();
+    var lev2_val = $("#level2").val();
+    var lev3_val = $("#level3").val();
+    var lev4_val = $("#level4").val();
+    var hierarchy = {level1:lev1_val,level2:lev2_val,level3:lev3_val,level4:lev4_val}
+    return hierarchy;
+}
+
+function look_up(hierarchy,query_level){
+    $.ajax({
+        type: "POST",
+        url: "/get_levels",
+        contentType: "text/json; charset=utf-8",
+        data: JSON.stringify(hierarchy),
+        success: function (data) {
+            var newoptions = "";
+            newoptions = '<option disabled selected value="start"> -- select an option -- </option>'
+            for (var level of data.levels) {
+                newoptions += '<option value="' + level + '">' + level + '</option>';
+            }
+            tmp99 = "#level"+query_level
+            $(tmp99).html(newoptions);
+            $(tmp99).prop('disabled', false);
+        }
+    });
+}

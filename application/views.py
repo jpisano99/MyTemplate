@@ -7,32 +7,22 @@ from application.my_functions import *
 
 @application.route('/get_levels' ,methods=['POST'])
 def get_levels():
-
     hierarchy = json.loads((request.data).decode("utf-8"))
-    my_request = []
-    for level,value in hierarchy.items():
-        print (level, value)
-        my_request.append(value)
 
-    #my_request = [hierarchy["level1"],hierarchy["level1"]]
-    my_request = [hierarchy["level1"]]
-
-    # Strip out %20 space markers
-    #hierarchy = hierarchy.replace("%20", " ")
+    if hierarchy["level1"] == 'lev1_empty':
+        my_request = []
+    else:
+        my_request = []
+        my_request.append(hierarchy["level1"])
+        my_request.append(hierarchy["level2"])
+        my_request.append(hierarchy["level3"])
+        my_request.append(hierarchy["level4"])
 
     levelArray = build_sales_list(my_request)
 
-    # levelArray = []
-    # x = 0
-    # for key, values in levels.items():
-    #     for value in values:
-    #         # cityObj={}
-    #         # cityObj['id'] = x+1
-    #         # cityObj['name'] = value[0]+"/"+value[1]
-    #         # levelArray.append(cityObj)
-    #         levelArray.append(value[1])
-
-    print(levelArray)
+    # print()
+    # print("Sending back to jQuery:  ")
+    # print ({'levels': levelArray})
 
     return jsonify({'levels': levelArray})
 
