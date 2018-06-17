@@ -5,6 +5,8 @@ def build_sales_list(hierarchy):
     # Build SQL Stmnt from the hierarchy list
     sql_where = ""
     sql_columns = ""
+    for key,value in hierarchy.items():
+        print ("Request: ",key," / ",value)
 
     # If the first level is none then we are just starting
     if hierarchy["level1"] == None:
